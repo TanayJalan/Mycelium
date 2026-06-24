@@ -138,7 +138,7 @@ export const MycelialCanvas: React.FC<MycelialCanvasProps> = ({
     if (longPressTimer.current) clearTimeout(longPressTimer.current);
     longPressTimer.current = setTimeout(() => {
       setNodeToDelete(task.id);
-    }, 3000);
+    }, 1500); // reduced to 1.5 seconds for better UX
   };
 
   const handlePointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
@@ -147,8 +147,8 @@ export const MycelialCanvas: React.FC<MycelialCanvasProps> = ({
     const dx = e.clientX - dragState.startX;
     const dy = e.clientY - dragState.startY;
 
-    // Filter out micro-movements to avoid eating simple select clicks
-    if (!dragState.hasMoved && Math.sqrt(dx * dx + dy * dy) < 4) {
+    // Filter out micro-movements to avoid eating simple select clicks or cancelling long-press
+    if (!dragState.hasMoved && Math.sqrt(dx * dx + dy * dy) < 12) {
       return;
     }
 
