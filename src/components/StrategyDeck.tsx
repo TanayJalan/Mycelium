@@ -536,9 +536,9 @@ export const StrategyDeck: React.FC<StrategyDeckProps> = ({ slides }) => {
   };
 
   return (
-    <div className="bg-[#161B22] border border-[#30363D] rounded-xl overflow-hidden flex flex-col md:flex-row h-[520px] shadow-2xl">
+    <div className="bg-[#161B22] border border-[#30363D] rounded-xl overflow-hidden flex flex-col md:flex-row h-auto md:h-[520px] shadow-2xl">
       {/* Sidebar Selector */}
-      <div className="w-full md:w-[240px] border-r border-[#30363D] bg-[#0d1117] flex flex-col justify-between p-3 overflow-y-auto">
+      <div className="w-full md:w-[240px] border-b md:border-b-0 md:border-r border-[#30363D] bg-[#0d1117] flex flex-col justify-between p-3 overflow-y-auto h-[220px] md:h-auto shrink-0">
         <div className="space-y-1">
           <span className="text-[9px] font-mono tracking-widest text-slate-500 uppercase block px-2.5 mb-2">
             PITCH DECK TOPICS

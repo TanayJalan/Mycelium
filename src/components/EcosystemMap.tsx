@@ -60,7 +60,7 @@ export const EcosystemMap: React.FC<EcosystemMapProps> = ({
       <div className="absolute top-[-50%] left-[-10%] w-[60%] h-[150%] bg-indigo-900/10 blur-[100px] pointer-events-none rounded-full" />
 
       {/* Grid Map Canvas */}
-      <div className="flex-1 h-[320px] bg-[#0d1117] border border-[#30363D] rounded-xl overflow-hidden relative shadow-[inset_0_0_40px_rgba(0,0,0,0.8)] group">
+      <div className="w-full md:flex-1 h-[320px] shrink-0 bg-[#0d1117] border border-[#30363D] rounded-xl overflow-hidden relative shadow-[inset_0_0_40px_rgba(0,0,0,0.8)] group">
         
         {/* Radar Scanner Sweep Animation */}
         <div className="absolute inset-0 bg-[conic-gradient(from_90deg_at_50%_50%,rgba(99,102,241,0)_0%,rgba(99,102,241,0.05)_80%,rgba(99,102,241,0.15)_100%)] opacity-30 animate-[spin_4s_linear_infinite]" />
