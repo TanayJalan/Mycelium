@@ -44,8 +44,7 @@ const PITCH_SLIDES: PitchSlide[] = [
   { id: 8, title: "Relational DB Schema", subtitle: "PostgreSQL schema, foreign keys & JSON matrices", category: "TECHNICAL", visualType: "database" },
   { id: 9, title: "MVP Hackathon Scope", subtitle: "Deliverables Completed in 24-48 Hours", category: "PRACTICAL", visualType: "roadmap" },
   { id: 10, title: "Future Startup Roadmap", subtitle: "Seed Venture through Biological Computing Integration", category: "FUTURE", visualType: "roadmap" },
-  { id: 11, title: "3-Minute Live Demo Script", subtitle: "Pitch Timeline & Hook to Engage judges", category: "FUTURE", visualType: "demo" },
-  { id: 12, title: "Judging Strategy", subtitle: "Satisfying Innovation, Impact & Complexity", category: "FUTURE", visualType: "judging" },
+  { id: 11, title: "Judging Strategy", subtitle: "Satisfying Innovation, Impact & Complexity", category: "FUTURE", visualType: "judging" },
 ];
 
 const INITIAL_TASKS: MycelialTask[] = [
