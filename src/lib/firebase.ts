@@ -7,34 +7,24 @@ import {
 import { getAuth } from "firebase/auth";
 // Initialize Firebase App
 const firebaseConfig = {
-  projectId: "mesmerizing-park-s224x",
-  appId: "1:236120592145:web:62c533806c409901b1c6b0",
-  apiKey: "AIzaSyCvZEYBFlncRpqx-u5mvD4Pwqq67dzDggM",
-  authDomain: "mesmerizing-park-s224x.firebaseapp.com",
-  firestoreDatabaseId: "ai-studio-759ef204-016a-437a-bc75-6eaee62bc1e7",
-  storageBucket: "mesmerizing-park-s224x.firebasestorage.app",
-  messagingSenderId: "236120592145",
-  measurementId: ""
+  apiKey: "AIzaSyAzbr7IVLlFMVHTjT61MyHe4N7YjOMVGXQ",
+  authDomain: "mycelium-565cd.firebaseapp.com",
+  projectId: "mycelium-565cd",
+  storageBucket: "mycelium-565cd.firebasestorage.app",
+  messagingSenderId: "781204970188",
+  appId: "1:781204970188:web:ef7d1ab361c95a4ab08069"
 };
 
-const app = initializeApp({
-  apiKey: firebaseConfig.apiKey,
-  authDomain: firebaseConfig.authDomain,
-  projectId: firebaseConfig.projectId,
-  storageBucket: firebaseConfig.storageBucket,
-  messagingSenderId: firebaseConfig.messagingSenderId,
-  appId: firebaseConfig.appId
-});
+const app = initializeApp(firebaseConfig);
 
-// Initialize Firestore with the databaseId and persistent cache configuration
+// Initialize Firestore with persistent cache configuration
 export const db = initializeFirestore(
   app, 
   {
     localCache: persistentLocalCache({
       tabManager: persistentMultipleTabManager()
     })
-  },
-  firebaseConfig.firestoreDatabaseId || "(default)"
+  }
 );
 
 // Initialize Firebase Auth
