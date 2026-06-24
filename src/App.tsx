@@ -371,6 +371,8 @@ export default function App() {
 
   // Handler: Delete Task
   const handleDeleteTask = (id: string) => {
+    // Optimistic deletion for latency-free UX
+    setTasks(prev => prev.filter(t => t.id !== id));
     deleteTask(id, userId);
     if (selectedTaskId === id) setSelectedTaskId(null);
   };
