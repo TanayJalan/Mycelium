@@ -1,0 +1,60 @@
+{
+  "entities": {
+    "MycelialTask": {
+      "title": "MycelialTask",
+      "description": "Represents a task node in the mycelial biological neural network.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the task node."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the task."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the task."
+        },
+        "deadline": {
+          "type": "string",
+          "description": "The ISO 8601 deadline timestamp of the task."
+        },
+        "connectedTo": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of connected task IDs representing mycelial hyphae."
+        },
+        "riskScore": {
+          "type": "integer",
+          "description": "Current threat risk score between 0 and 100."
+        },
+        "decayRate": {
+          "type": "number",
+          "description": "Rate at which risk score increases."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["idle", "vibrating", "decaying", "danger", "completed"],
+          "description": "Biological activity status."
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "Whether the task has been resolved."
+        }
+      },
+      "required": ["id", "title", "deadline", "connectedTo", "riskScore", "decayRate", "status", "completed"]
+    }
+  },
+  "firestore": {
+    "/tasks/{taskId}": {
+      "schema": {
+        "$ref": "#/entities/MycelialTask"
+      },
+      "description": "Subterranean collection of mycelial network tasks."
+    }
+  }
+}

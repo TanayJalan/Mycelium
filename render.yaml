@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: mycelium
+    env: node
+    region: oregon
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_VERSION
+        value: "20.11.1" # Use a stable recent Node version
+      - key: GEMINI_API_KEY
+        sync: false # Tells Render not to commit the key to Git, you will input this securely in their dashboard
+      - key: APP_URL
+        sync: false # You will set this to your Render URL (e.g., https://mycelium.onrender.com) once deployed

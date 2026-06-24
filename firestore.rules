@@ -1,0 +1,60 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function to validate schema rules for a mycelial task
+    function isValidTask(data) {
+      return data.keys().hasAll([
+        'id', 'title', 'deadline', 'priority', 'durationMinutes', 
+        'description', 'category', 'progress', 'connectedTo', 
+        'riskScore', 'completed', 'gridX', 'gridY', 'decayRate'
+      ])
+      && data.id is string
+      && data.title is string 
+      && data.title.size() <= 200
+      && data.deadline is string 
+      && data.deadline.size() <= 100
+      && data.priority in ['critical', 'high', 'medium', 'low']
+      && data.durationMinutes is int
+      && data.durationMinutes >= 0
+      && data.description is string 
+      && data.description.size() <= 2000
+      && data.category in ['academic', 'professional', 'billing', 'personal']
+      && (data.progress is int || data.progress is float)
+      && data.progress >= 0 
+      && data.progress <= 100
+      && data.connectedTo is list
+      && (data.riskScore is int || data.riskScore is float)
+      && data.riskScore >= 0 
+      && data.riskScore <= 100
+      && data.completed is bool
+      && (data.gridX is int || data.gridX is float)
+      && data.gridX >= 0 
+      && data.gridX <= 100
+      && (data.gridY is int || data.gridY is float)
+      && data.gridY >= 0 
+      && data.gridY <= 100
+      && (data.decayRate is int || data.decayRate is float)
+      && data.decayRate >= 0;
+    }
+
+    // Only allow reads and writes to the global 'tasks' collection under strict schema constraints (for guest fallbacks)
+    match /tasks/{taskId} {
+      allow read: if true;
+      allow create, update: if isValidTask(request.resource.data);
+      allow delete: if true;
+    }
+
+    // Allow authenticated users to read and write their own tasks collection with exact schema validation
+    match /users/{userId}/tasks/{taskId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create, update: if request.auth != null && request.auth.uid == userId && isValidTask(request.resource.data);
+      allow delete: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Explicitly deny anything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
