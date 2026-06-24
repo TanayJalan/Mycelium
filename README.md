@@ -25,41 +25,44 @@
 
 ---
 
-## 💻 UI Walkthrough & Architecture
+## 📸 Evaluation Matrix Showcase
 
-### 1. The Biological Neural Grid
-The core canvas where all commitments live as connected nodes.
-- **Visual Risk:** Nodes visually pulse and change color based on proximity to their deadline.
-- **Connections:** Completing parent tasks releases nutrients to dependent child nodes.
+*Please review the following screenshots which demonstrate how Mycelium satisfies each of the 7 Hackathon judging criteria:*
 
-> 📸 **[PLACEHOLDER: Insert screenshot of the glowing 2D Mycelial Canvas with connected nodes]**
-> `![Neural Grid](link-to-image)`
-
-### 2. The Four Autonomous Symbiotes (Agents)
-Toggle between unique microbial guides:
-- **The Spore:** Parses chaotic syllabus dumps into structured grid coordinates.
-- **The Shroom:** Aggressive accountability partner that "spore-shames" you if you procrastinate.
-- **Myco-Field:** Generates subterranean calm and deep-focus breathing loops.
-- **Bio-Bridge:** Maps digital completion to simulated ecological carbon offsets.
-
-> 📸 **[PLACEHOLDER: Insert screenshot of the Agent Chat interface showing a response from The Shroom]**
-> `![Agent Chat](link-to-image)`
-
-### 3. Emergency Decay Protocol (Lockdown)
-When a critical node is rotting, the system takes over.
-- Bypasses procrastination by keeping the cursor locked inside a high-contrast terminal.
-- Engages native Web Audio API to loop 110Hz/114.5Hz Theta waves and a 55Hz sub-harmonic drone.
-
+### 1. Problem Solving & Impact (20%)
+**Showcasing:** The Emergency Lockdown Protocol. When a user procrastinates, Mycelium locks the screen and uses Web Audio binaural beats to force focus.
 > 📸 **[PLACEHOLDER: Insert screenshot of the red/high-contrast Emergency Console]**
-> `![Emergency Lockdown](link-to-image)`
+> `![Problem Solving - Emergency Mode](link-to-image)`
 
-### 4. Zero-to-One Draft Generator & Diagnostics
-Leverages Gemini to eliminate the "activation energy" of starting a massive task.
-- Click a task to instantly generate a personalized 10% starter draft.
-- The system runs continuous background diagnostics to predict network failure rates.
+### 2. Agentic Depth (20%)
+**Showcasing:** The multi-agent ecosystem. Here, "The Spore" parses unstructured text into tasks, while "The Shroom" provides aggressive accountability.
+> 📸 **[PLACEHOLDER: Insert screenshot of the Agent Chat interface showing the AI personas]**
+> `![Agentic Depth - Chat](link-to-image)`
 
-> 📸 **[PLACEHOLDER: Insert screenshot of the Zero-to-One Quickstart sidebar or Risk Diagnostic panel]**
-> `![AI Diagnostics](link-to-image)`
+### 3. Innovation & Creativity (20%)
+**Showcasing:** The Biological Neural Grid. Instead of a flat list, tasks are living spores connected by glowing hyphae that pulse based on deadline risk.
+> 📸 **[PLACEHOLDER: Insert screenshot of the 2D Mycelial Canvas with connected glowing nodes]**
+> `![Innovation - Neural Grid](link-to-image)`
+
+### 4. Usage of Google Technologies (15%)
+**Showcasing:** Gemini 3.5 Flash Integration. The AI diagnostic panel uses structured JSON outputs from Gemini to predict deadline failure rates.
+> 📸 **[PLACEHOLDER: Insert screenshot of the Risk Diagnostic panel or Zero-to-One Quickstart]**
+> `![Google Tech - Gemini Diagnostics](link-to-image)`
+
+### 5. Product Experience & Design (10%)
+**Showcasing:** The Chief of Staff HUD. A seamless, dark-mode, biological-terminal aesthetic built with Tailwind v4 and Framer Motion.
+> 📸 **[PLACEHOLDER: Insert screenshot of the main HUD dashboard and top navigation]**
+> `![Product Design - HUD](link-to-image)`
+
+### 6. Technical Implementation (10%)
+**Showcasing:** Real-time synchronization. The Firestore NoSQL database powers the backend, syncing node coordinates instantly across devices.
+> 📸 **[PLACEHOLDER: Insert screenshot of the Firebase/Firestore database console showing the tasks, or the app running on two screens]**
+> `![Technical Implementation - Sync](link-to-image)`
+
+### 7. Completeness & Usability (5%)
+**Showcasing:** The Progressive Web App (PWA) and Mobile Responsiveness. The app is fully deployable and usable on any device.
+> 📸 **[PLACEHOLDER: Insert screenshot of the app running cleanly on a mobile device or as an installed desktop PWA]**
+> `![Completeness - Mobile/PWA](link-to-image)`
 
 ---
 
