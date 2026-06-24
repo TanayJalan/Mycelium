@@ -233,7 +233,12 @@ export default function App() {
         content: `[Spore Intercom Active] ${agent.phrase}\n\nI am configured and tracking your active node pathways. How can I assist with your commitments today?`,
         timestamp: new Date().toISOString(),
       };
-      setMessages([introMsg]);
+      setMessages(prev => {
+        // Avoid adding duplicate intro messages if it's already the last message
+        const lastMsg = prev[prev.length - 1];
+        if (lastMsg && lastMsg.content.includes(agent.phrase)) return prev;
+        return [...prev, introMsg];
+      });
     }
   }, [agentType]);
 
@@ -246,8 +251,24 @@ export default function App() {
     
     const initializeUserTasks = async () => {
       try {
-        // Seed initial tasks in Firestore if empty for this user
-        await seedInitialTasksIfNeeded(INITIAL_TASKS, userId);
+        const userKey = userId || "guest";
+        
+        // Load persisted state from local storage on user context shift
+        const savedMessages = localStorage.getItem(`mycelium_messages_${userKey}`);
+        if (savedMessages) setMessages(JSON.parse(savedMessages));
+
+        const savedEcosystem = localStorage.getItem(`mycelium_ecosystem_${userKey}`);
+        if (savedEcosystem) setEcosystemTasks(JSON.parse(savedEcosystem));
+
+        const savedVitality = localStorage.getItem(`mycelium_vitality_${userKey}`);
+        if (savedVitality) setVitalityPoints(JSON.parse(savedVitality));
+
+        // Seed initial tasks in Firestore if empty for this user (only once per device)
+        const seedKey = `hasSeeded_${userKey}`;
+        if (!localStorage.getItem(seedKey)) {
+          await seedInitialTasksIfNeeded(INITIAL_TASKS, userId);
+          localStorage.setItem(seedKey, "true");
+        }
         
         if (!isCurrent) return;
         
@@ -274,6 +295,21 @@ export default function App() {
       }
     };
   }, [userId]);
+
+  // Persist state to local storage when it changes
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem(`mycelium_messages_${userId || "guest"}`, JSON.stringify(messages));
+    }
+  }, [messages, userId]);
+
+  useEffect(() => {
+    localStorage.setItem(`mycelium_ecosystem_${userId || "guest"}`, JSON.stringify(ecosystemTasks));
+  }, [ecosystemTasks, userId]);
+
+  useEffect(() => {
+    localStorage.setItem(`mycelium_vitality_${userId || "guest"}`, JSON.stringify(vitalityPoints));
+  }, [vitalityPoints, userId]);
 
   // Periodic simulated decay: Every 15 seconds, uncompleted task risks go up slightly to demonstrate kinetic stress!
   useEffect(() => {
