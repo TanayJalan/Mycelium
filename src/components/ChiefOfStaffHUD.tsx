@@ -696,10 +696,12 @@ export const ChiefOfStaffHUD: React.FC<ChiefOfStaffHUDProps> = ({
 
         {/* TAB 4: AUTONOMOUS EXECUTION TERMINAL */}
         {activeTab === "execution" && (
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div className="space-y-1.5">
-              <h4 className="text-xs font-sans font-semibold text-slate-300 uppercase flex items-center gap-1.5">
-                <Zap className="w-4 h-4 text-indigo-400" />
+              <h4 className="text-xs font-sans font-semibold text-slate-300 uppercase flex items-center gap-2">
+                <div className="p-1 bg-indigo-500/20 rounded-md">
+                  <Zap className="w-4 h-4 text-indigo-400" />
+                </div>
                 <span>Autonomous Execution Terminal</span>
               </h4>
               <p className="text-[11px] text-slate-400 leading-relaxed">
@@ -708,49 +710,84 @@ export const ChiefOfStaffHUD: React.FC<ChiefOfStaffHUDProps> = ({
             </div>
 
             {selectedTask ? (
-              <div className="space-y-3.5 bg-[#0d1117] border border-[#30363D] p-3 rounded-lg">
-                <div>
-                  <span className="text-[9px] font-mono text-slate-500 block uppercase">Selected Execution Focus:</span>
-                  <p className="text-xs font-bold text-white font-sans">{selectedTask.title}</p>
+              <div className="space-y-4">
+                {/* Selected Target Display */}
+                <div className="relative overflow-hidden bg-gradient-to-br from-indigo-950/40 to-slate-900/40 border border-indigo-500/30 p-3.5 rounded-xl shadow-[0_0_15px_rgba(99,102,241,0.1)]">
+                  <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500 rounded-l-xl"></div>
+                  <div className="flex items-center gap-3">
+                    <div className="shrink-0 p-2 bg-indigo-500/20 rounded-full border border-indigo-500/30">
+                      <Activity className="w-4 h-4 text-indigo-300" />
+                    </div>
+                    <div>
+                      <span className="text-[8px] font-mono text-indigo-400 block uppercase tracking-widest font-bold mb-0.5">Active Target Locked</span>
+                      <p className="text-sm font-bold text-white font-sans truncate pr-2">{selectedTask.title}</p>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Grid of Autonomous Quick Actions */}
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-2 gap-3">
                   <button
                     onClick={handleAutoCalSync}
                     disabled={calBlocked}
-                    className={`p-2.5 rounded-lg border transition-all text-left flex flex-col justify-between h-20 text-[10px] font-mono font-bold cursor-pointer ${
+                    className={`relative overflow-hidden p-3 rounded-xl border transition-all text-left flex flex-col justify-between h-[88px] cursor-pointer group ${
                       calBlocked
-                        ? "border-emerald-800/60 bg-emerald-950/10 text-emerald-400"
-                        : "border-[#30363D] hover:border-indigo-500 bg-[#161B22] hover:bg-indigo-950/20 text-slate-300"
+                        ? "border-emerald-500/40 bg-emerald-950/20"
+                        : "border-[#30363D] hover:border-indigo-500/60 bg-[#161B22] hover:bg-indigo-950/30 hover:shadow-[0_0_15px_rgba(99,102,241,0.15)]"
                     }`}
                   >
-                    <Calendar className={`w-4 h-4 ${calBlocked ? "text-emerald-400" : "text-indigo-400"}`} />
-                    <span>{isSyncingCal ? "Syncing..." : isCalSynced ? "✓ Calendar Synced" : "Export to Calendar"}</span>
+                    {!calBlocked && <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>}
+                    <div className="flex justify-between items-start w-full relative z-10">
+                      <div className={`p-1.5 rounded-lg ${calBlocked ? 'bg-emerald-500/20' : 'bg-[#0d1117] group-hover:bg-indigo-500/20 transition-colors'}`}>
+                        <Calendar className={`w-4 h-4 ${calBlocked ? "text-emerald-400" : "text-indigo-400 group-hover:text-indigo-300"}`} />
+                      </div>
+                      {calBlocked && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />}
+                    </div>
+                    <div className="relative z-10 mt-2">
+                      <span className={`block text-[10px] font-mono font-bold tracking-wide ${calBlocked ? "text-emerald-400" : "text-slate-300 group-hover:text-indigo-300"}`}>
+                        {isSyncingCal ? "SYNCING..." : isCalSynced ? "SYNCED" : "CALENDAR SYNC"}
+                      </span>
+                      <span className="block text-[8px] text-slate-500 mt-0.5">{calBlocked ? "Reservation confirmed" : "Inject focus block"}</span>
+                    </div>
                   </button>
 
                   <button
                     onClick={handleAutoChecklist}
                     disabled={checklistBlocked}
-                    className={`p-2.5 rounded-lg border transition-all text-left flex flex-col justify-between h-20 text-[10px] font-mono font-bold cursor-pointer ${
+                    className={`relative overflow-hidden p-3 rounded-xl border transition-all text-left flex flex-col justify-between h-[88px] cursor-pointer group ${
                       checklistBlocked
-                        ? "border-emerald-800/60 bg-emerald-950/10 text-emerald-400"
-                        : "border-[#30363D] hover:border-indigo-500 bg-[#161B22] hover:bg-indigo-950/20 text-slate-300"
+                        ? "border-emerald-500/40 bg-emerald-950/20"
+                        : "border-[#30363D] hover:border-violet-500/60 bg-[#161B22] hover:bg-violet-950/30 hover:shadow-[0_0_15px_rgba(139,92,246,0.15)]"
                     }`}
                   >
-                    <ListTodo className={`w-4 h-4 ${checklistBlocked ? "text-emerald-400" : "text-indigo-400"}`} />
-                    <span>{isInjectingPlan ? "Injecting..." : isPlanInjected ? "✓ Plan Injected" : "Inject Study Plan"}</span>
+                    {!checklistBlocked && <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>}
+                    <div className="flex justify-between items-start w-full relative z-10">
+                      <div className={`p-1.5 rounded-lg ${checklistBlocked ? 'bg-emerald-500/20' : 'bg-[#0d1117] group-hover:bg-violet-500/20 transition-colors'}`}>
+                        <ListTodo className={`w-4 h-4 ${checklistBlocked ? "text-emerald-400" : "text-violet-400 group-hover:text-violet-300"}`} />
+                      </div>
+                      {checklistBlocked && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />}
+                    </div>
+                    <div className="relative z-10 mt-2">
+                      <span className={`block text-[10px] font-mono font-bold tracking-wide ${checklistBlocked ? "text-emerald-400" : "text-slate-300 group-hover:text-violet-300"}`}>
+                        {isInjectingPlan ? "INJECTING..." : isPlanInjected ? "INJECTED" : "STUDY PLAN"}
+                      </span>
+                      <span className="block text-[8px] text-slate-500 mt-0.5">{checklistBlocked ? "Sub-tasks added" : "Generate checklist"}</span>
+                    </div>
                   </button>
                 </div>
 
                 {/* Social Accountability Dispatcher */}
-                <div className="border-t border-[#30363D] pt-3 space-y-2">
-                  <div className="flex justify-between items-center text-[10px] font-mono text-slate-400">
-                    <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5 text-indigo-400" /> Accountability Contact</span>
+                <div className="bg-[#0d1117] border border-[#30363D] rounded-xl p-3.5 space-y-3 relative overflow-hidden">
+                  <div className="absolute right-0 top-0 w-24 h-24 bg-gradient-to-bl from-indigo-500/10 to-transparent blur-xl pointer-events-none"></div>
+                  
+                  <div className="flex justify-between items-center z-10 relative">
+                    <span className="flex items-center gap-1.5 text-[10px] font-mono text-slate-400 uppercase tracking-wide font-bold">
+                      <Users className="w-3.5 h-3.5 text-indigo-400" /> Report Target
+                    </span>
                     <select
                       value={selectedContact}
                       onChange={(e) => setSelectedContact(e.target.value)}
-                      className="bg-slate-900 text-slate-300 text-[10px] font-mono border border-[#30363D] rounded px-1.5 py-0.5 outline-none cursor-pointer"
+                      className="bg-[#161B22] text-slate-300 text-[10px] font-mono border border-[#30363D] rounded-md px-2 py-1 outline-none cursor-pointer focus:border-indigo-500/50"
                     >
                       <option value="Mentor Tanay">Mentor Tanay</option>
                       <option value="Research Lead">Research Lead</option>
@@ -761,28 +798,38 @@ export const ChiefOfStaffHUD: React.FC<ChiefOfStaffHUDProps> = ({
 
                   <button
                     onClick={handleDispatchProgressReport}
-                    className="w-full py-1.5 bg-[#161B22] hover:bg-indigo-950/30 border border-[#30363D] hover:border-indigo-500/40 text-[11px] font-sans font-medium rounded text-indigo-300 hover:text-white transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    className="relative w-full py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-sans font-bold text-xs rounded-lg flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[0_0_15px_rgba(99,102,241,0.3)] hover:shadow-[0_0_20px_rgba(99,102,241,0.5)] z-10 overflow-hidden group"
                   >
+                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out"></div>
                     <Send className="w-3.5 h-3.5" />
-                    <span>Dispatch Progress Report</span>
+                    <span>Dispatch Automated Progress Sync</span>
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="py-8 text-center text-xs text-slate-500 font-mono italic">
-                *Select an active task node on the neural grid to enable execution commands.
+              <div className="py-12 flex flex-col items-center justify-center text-center space-y-3 bg-[#0d1117]/50 rounded-xl border border-dashed border-[#30363D]">
+                <div className="p-3 bg-[#161B22] rounded-full">
+                  <Activity className="w-6 h-6 text-slate-600" />
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400 font-semibold">No Target Selected</p>
+                  <p className="text-[10px] text-slate-500 font-mono mt-1 px-8">Select an active task node on the neural grid to initialize execution protocols.</p>
+                </div>
               </div>
             )}
 
             {/* Social Logging Feed */}
-            <div className="space-y-1.5">
-              <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest block font-bold">SOCIAL DISPATCH ARCHIVE</span>
-              <div className="bg-[#0d1117] border border-[#30363D] rounded p-2 h-16 overflow-y-auto text-[9px] font-mono text-slate-400 space-y-1">
+            <div className="space-y-2 pt-2 border-t border-[#30363D]">
+              <span className="flex items-center gap-2 text-[9px] font-mono text-slate-500 uppercase tracking-widest font-bold">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                Terminal Output Log
+              </span>
+              <div className="bg-slate-950 border border-slate-800 rounded-lg p-3 h-24 overflow-y-auto text-[10px] font-mono text-slate-400 space-y-2 shadow-inner">
                 {socialLogs.map((log, idx) => (
-                  <p key={idx} className="border-b border-[#30363D]/40 last:border-0 pb-1 flex items-start gap-1">
-                    <CheckSquare className="w-3 h-3 text-emerald-500 shrink-0 mt-0.5" />
-                    <span>{log}</span>
-                  </p>
+                  <div key={idx} className="flex items-start gap-2 group">
+                    <span className="text-emerald-500/50 mt-0.5 opacity-50 group-hover:opacity-100 transition-opacity">{">"}</span>
+                    <span className="leading-relaxed group-hover:text-slate-300 transition-colors">{log}</span>
+                  </div>
                 ))}
               </div>
             </div>
