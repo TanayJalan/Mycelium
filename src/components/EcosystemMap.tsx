@@ -1,6 +1,6 @@
 import React from "react";
 import { EcosystemTask } from "../types";
-import { MapPin, Navigation, Droplets, Leaf, Trash2, Sprout, AlertCircle } from "lucide-react";
+import { MapPin, Droplets, Leaf, Trash2, Sprout, AlertCircle, Activity, CheckCircle2 } from "lucide-react";
 
 interface EcosystemMapProps {
   tasks: EcosystemTask[];
@@ -32,109 +32,174 @@ export const EcosystemMap: React.FC<EcosystemMapProps> = ({
   const getTaskColorClass = (type: string) => {
     switch (type) {
       case "trash":
-        return "border-orange-500 bg-orange-950/20 text-orange-400 hover:bg-orange-950/45";
+        return "border-orange-500/50 bg-orange-950/30 text-orange-400 hover:border-orange-400 shadow-[0_0_10px_rgba(249,115,22,0.1)] hover:shadow-[0_0_15px_rgba(249,115,22,0.3)]";
       case "soil":
-        return "border-blue-500 bg-blue-950/20 text-blue-400 hover:bg-blue-950/45";
+        return "border-blue-500/50 bg-blue-950/30 text-blue-400 hover:border-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.1)] hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]";
       case "biodiversity":
-        return "border-purple-500 bg-purple-950/20 text-purple-400 hover:bg-purple-950/45";
+        return "border-purple-500/50 bg-purple-950/30 text-purple-400 hover:border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.1)] hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]";
       case "carbon":
-        return "border-emerald-500 bg-emerald-950/20 text-emerald-400 hover:bg-emerald-950/45";
+        return "border-emerald-500/50 bg-emerald-950/30 text-emerald-400 hover:border-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.1)] hover:shadow-[0_0_15px_rgba(16,185,129,0.3)]";
       default:
-        return "border-slate-500 bg-slate-950/20 text-slate-400";
+        return "border-slate-500/50 bg-slate-950/30 text-slate-400 hover:border-slate-400";
+    }
+  };
+
+  const getTaskGradient = (type: string) => {
+    switch (type) {
+      case "trash": return "hover:bg-gradient-to-r hover:from-orange-950/40 hover:to-[#0d1117]";
+      case "soil": return "hover:bg-gradient-to-r hover:from-blue-950/40 hover:to-[#0d1117]";
+      case "biodiversity": return "hover:bg-gradient-to-r hover:from-purple-950/40 hover:to-[#0d1117]";
+      case "carbon": return "hover:bg-gradient-to-r hover:from-emerald-950/40 hover:to-[#0d1117]";
+      default: return "hover:bg-slate-900";
     }
   };
 
   return (
-    <div className="bg-[#161B22] border border-[#30363D] rounded-xl p-4 flex flex-col md:flex-row gap-5 shadow-2xl">
+    <div className="bg-[#161B22] border border-[#30363D] rounded-xl p-4 flex flex-col md:flex-row gap-5 shadow-2xl relative overflow-hidden">
+      {/* Background ambient glow */}
+      <div className="absolute top-[-50%] left-[-10%] w-[60%] h-[150%] bg-indigo-900/10 blur-[100px] pointer-events-none rounded-full" />
+
       {/* Grid Map Canvas */}
-      <div className="flex-1 h-[280px] bg-[#0d1117] border border-[#30363D] rounded-lg overflow-hidden relative shadow-inner">
+      <div className="flex-1 h-[320px] bg-[#0d1117] border border-[#30363D] rounded-xl overflow-hidden relative shadow-[inset_0_0_40px_rgba(0,0,0,0.8)] group">
+        
+        {/* Radar Scanner Sweep Animation */}
+        <div className="absolute inset-0 bg-[conic-gradient(from_90deg_at_50%_50%,rgba(99,102,241,0)_0%,rgba(99,102,241,0.05)_80%,rgba(99,102,241,0.15)_100%)] opacity-30 animate-[spin_4s_linear_infinite]" />
+        
         {/* Background Grid Pattern Overlay */}
-        <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:14px_24px]" />
+        <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,#818cf8_1px,transparent_1px),linear-gradient(to_bottom,#818cf8_1px,transparent_1px)] bg-[size:20px_20px]" />
 
         {/* Outer Boundary Map Simulation */}
-        <svg className="w-full h-full absolute inset-0">
-          {/* Main Transit Path Vector Line */}
+        <svg className="w-full h-full absolute inset-0 z-10" viewBox="0 0 400 320" preserveAspectRatio="none">
+          <defs>
+            <filter id="glow-heavy" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+            <linearGradient id="route-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#38bdf8" />
+              <stop offset="100%" stopColor="#f43f5e" />
+            </linearGradient>
+          </defs>
+
+          {/* Flowing Transit Path Vector Line */}
           <path
-            d="M 50,220 C 120,200 150,120 280,100"
+            d="M 50,260 C 120,240 180,120 340,80"
             fill="none"
-            stroke="#30363D"
-            strokeWidth="3"
-            strokeDasharray="4,4"
-          />
+            stroke="url(#route-gradient)"
+            strokeWidth="2.5"
+            strokeOpacity="0.6"
+            strokeDasharray="6,8"
+          >
+            <animate attributeName="stroke-dashoffset" from="28" to="0" dur="1s" repeatCount="indefinite" />
+          </path>
+          
+          {/* Solid subtle backdrop line */}
           <path
-            d="M 50,220 C 120,200 150,120 280,100"
+            d="M 50,260 C 120,240 180,120 340,80"
             fill="none"
             stroke="#818cf8"
-            strokeWidth="1.5"
-            strokeOpacity="0.4"
+            strokeWidth="1"
+            strokeOpacity="0.2"
           />
 
+          {/* Traveling Blip simulating the user */}
+          <circle r="3" fill="#fff" filter="url(#glow-heavy)">
+            <animateMotion dur="6s" repeatCount="indefinite" path="M 50,260 C 120,240 180,120 340,80" />
+          </circle>
+
           {/* User Starting Node */}
-          <circle cx="50" cy="220" r="5" fill="#38bdf8" />
-          <circle cx="50" cy="220" r="10" fill="none" stroke="#38bdf8" strokeWidth="1" strokeOpacity="0.5" className="animate-ping" />
+          <g transform="translate(50, 260)">
+            <circle r="6" fill="#38bdf8" filter="url(#glow-heavy)" />
+            <circle r="12" fill="none" stroke="#38bdf8" strokeWidth="1.5" strokeOpacity="0.6">
+              <animate attributeName="r" from="6" to="24" dur="2s" repeatCount="indefinite" />
+              <animate attributeName="opacity" from="0.8" to="0" dur="2s" repeatCount="indefinite" />
+            </circle>
+          </g>
 
           {/* Destination Deadline Target */}
-          <circle cx="280" cy="100" r="6" fill="#f43f5e" />
-          <circle cx="280" cy="100" r="12" fill="none" stroke="#f43f5e" strokeWidth="1" strokeOpacity="0.6" />
+          <g transform="translate(340, 80)">
+            <circle r="7" fill="#f43f5e" filter="url(#glow-heavy)" />
+            <circle r="14" fill="none" stroke="#f43f5e" strokeWidth="1.5" strokeOpacity="0.8" className="animate-pulse" />
+          </g>
         </svg>
 
         {/* User start label */}
-        <div className="absolute left-[20px] top-[230px] bg-[#161B22] border border-[#30363D] rounded px-1.5 py-0.5 text-[8px] font-mono text-cyan-400">
-          YOUR GPS (START)
+        <div className="absolute left-[20px] bottom-[20px] bg-sky-950/80 border border-sky-800/60 backdrop-blur-md rounded px-2 py-1 text-[9px] font-mono font-bold text-sky-400 z-20 shadow-lg">
+          GPS START / ORIGIN
         </div>
 
         {/* Target deadline label */}
-        <div className="absolute left-[220px] top-[60px] bg-[#161B22] border border-rose-950/60 rounded px-1.5 py-0.5 text-[8px] font-mono text-rose-400 flex items-center gap-1">
-          <MapPin className="w-2.5 h-2.5" /> DEADLINE TARGET
+        <div className="absolute right-[20px] top-[20px] bg-rose-950/80 border border-rose-800/60 backdrop-blur-md rounded px-2 py-1 text-[9px] font-mono font-bold text-rose-400 flex items-center gap-1.5 z-20 shadow-lg">
+          <MapPin className="w-3 h-3 animate-bounce" /> DEADLINE TARGET
         </div>
 
         {/* Interactive Ecosystem Task Pins on Map */}
         {tasks.map((task) => {
           if (task.status === "logged") return null;
           return (
-            <button
+            <div
               key={task.id}
-              onClick={() => onLogTask(task.id)}
-              className={`absolute p-1.5 rounded-full border transition-all hover:scale-125 cursor-pointer flex items-center justify-center ${getTaskColorClass(
-                task.type
-              )}`}
-              style={{ left: `${task.gridX}%`, top: `${task.gridY}%` }}
-              title={task.name}
+              className="absolute z-30 group/pin"
+              style={{ left: `${task.gridX}%`, top: `${task.gridY}%`, transform: 'translate(-50%, -50%)' }}
             >
-              <div className="absolute inset-[-4px] rounded-full border border-current opacity-30 animate-pulse"></div>
-              {getTaskIcon(task.type, "w-3.5 h-3.5")}
-            </button>
+              <button
+                onClick={() => onLogTask(task.id)}
+                className={`p-2 rounded-full border transition-all duration-300 transform group-hover/pin:scale-125 cursor-pointer flex items-center justify-center backdrop-blur-md ${getTaskColorClass(task.type)}`}
+              >
+                {getTaskIcon(task.type, "w-4 h-4")}
+              </button>
+              
+              {/* Beautiful Holographic Tooltip */}
+              <div className="absolute top-8 left-1/2 -translate-x-1/2 w-max max-w-[160px] opacity-0 group-hover/pin:opacity-100 transition-opacity duration-300 pointer-events-none">
+                <div className="bg-slate-900/95 border border-slate-700/60 shadow-xl rounded-lg p-2 backdrop-blur-xl">
+                  <p className="text-[10px] font-bold text-white leading-tight">{task.name}</p>
+                  <p className="text-[9px] font-mono text-indigo-300 mt-1">+{task.vitalityPoints} VP</p>
+                </div>
+              </div>
+            </div>
           );
         })}
 
         {/* Overlay HUD stats */}
-        <div className="absolute bottom-2 left-2 bg-[#0d1117]/90 border border-[#30363D] backdrop-blur rounded px-2.5 py-1 text-[9px] font-mono text-slate-400">
-          ROUTING: <span className="text-indigo-400">BIOPHILIC OPTIMIZATION ON</span>
+        <div className="absolute bottom-3 right-3 bg-[#0d1117]/90 border border-indigo-900/40 backdrop-blur-md shadow-lg rounded-md px-3 py-1.5 text-[10px] font-mono text-slate-400 z-20 flex items-center gap-2">
+          <Activity className="w-3 h-3 text-indigo-400 animate-pulse" />
+          ROUTING: <span className="text-indigo-400 font-bold">BIOPHILIC OPTIMIZATION</span>
         </div>
       </div>
 
       {/* Control / Legend sidebar */}
-      <div className="w-full md:w-[280px] flex flex-col justify-between">
-        <div className="space-y-2">
-          <div className="flex justify-between items-center bg-[#0d1117] border border-[#30363D] p-2.5 rounded-lg shadow-sm">
-            <span className="text-xs font-semibold text-slate-300">Mycelium Vitality Score</span>
-            <span className="text-sm font-mono font-bold text-indigo-400 bg-indigo-950/50 px-2 py-0.5 rounded border border-indigo-900/40">
-              +{vitalityPoints} VP
+      <div className="w-full md:w-[320px] flex flex-col justify-between z-10">
+        <div className="space-y-3">
+          
+          {/* High-tech Score Box */}
+          <div className="flex justify-between items-center bg-gradient-to-br from-[#0d1117] to-[#161B22] border border-[#30363D] p-3 rounded-xl shadow-[inset_0_2px_10px_rgba(255,255,255,0.02)] relative overflow-hidden group">
+            <div className="absolute inset-0 bg-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <span className="text-xs font-display font-bold text-slate-300">Mycelial Vitality</span>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-mono font-bold text-indigo-300 bg-indigo-950/60 px-2.5 py-1 rounded-md border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
+                {vitalityPoints.toLocaleString()} VP
+              </span>
+            </div>
+          </div>
+
+          <p className="text-[11px] text-slate-400 leading-relaxed bg-[#0d1117]/60 border border-[#30363D]/60 p-3 rounded-lg shadow-sm">
+            Complete physical tasks along your commute to feed carbon offsets, log crowdsourced ecosystem metrics, and restore biological focus.
+          </p>
+
+          <div className="flex items-center justify-between mt-4 mb-2">
+            <span className="text-[10px] font-mono tracking-widest text-slate-500 uppercase font-bold">
+              AVAILABLE LOGS
+            </span>
+            <span className="text-[10px] font-mono text-indigo-400 bg-indigo-950/30 px-1.5 py-0.5 rounded">
+              {tasks.filter((t) => t.status === "available").length} PENDING
             </span>
           </div>
 
-          <p className="text-[10px] text-slate-400 leading-relaxed bg-[#0d1117]/40 border border-[#30363D] p-2 rounded">
-            Completing physical environmental tasks along your walking route directly feeds carbon offsets, logging crowdsourced ecosystem metrics and boosting focus health.
-          </p>
-
-          <span className="text-[9px] font-mono tracking-widest text-slate-500 uppercase block mt-3 mb-1">
-            AVAILABLE LOCAL LOGS
-          </span>
-
-          <div className="space-y-1.5 max-h-[140px] overflow-y-auto pr-1">
+          <div className="space-y-2 max-h-[170px] overflow-y-auto pr-2 custom-scrollbar">
             {tasks.filter((t) => t.status === "available").length === 0 ? (
-              <div className="text-[10px] text-slate-500 italic p-3 text-center border border-[#30363D] rounded-lg">
-                All local ecosystem coordinates synced!
+              <div className="flex flex-col items-center justify-center gap-2 text-slate-500 p-6 border border-dashed border-[#30363D] rounded-xl bg-[#0d1117]/30">
+                <CheckCircle2 className="w-6 h-6 text-emerald-500/50" />
+                <span className="text-[11px] italic font-sans text-center">All local ecosystem coordinates synced. Network saturated.</span>
               </div>
             ) : (
               tasks
@@ -143,21 +208,21 @@ export const EcosystemMap: React.FC<EcosystemMapProps> = ({
                   <button
                     key={task.id}
                     onClick={() => onLogTask(task.id)}
-                    className={`w-full text-left p-2 rounded-lg border transition-all flex items-center justify-between text-[11px] font-sans hover:scale-[1.02] cursor-pointer ${getTaskColorClass(
-                      task.type
-                    )}`}
+                    className={`w-full text-left p-3 rounded-xl border border-[#30363D] bg-[#0d1117] transition-all duration-300 flex items-center justify-between hover:-translate-y-0.5 active:scale-95 cursor-pointer group ${getTaskGradient(task.type)} shadow-sm hover:shadow-md`}
                   >
-                    <div className="flex items-center gap-2">
-                      {getTaskIcon(task.type, "w-4 h-4")}
+                    <div className="flex items-center gap-3">
+                      <div className={`p-2 rounded-lg border bg-opacity-20 ${getTaskColorClass(task.type).split('hover:')[0]}`}>
+                        {getTaskIcon(task.type, "w-4 h-4")}
+                      </div>
                       <div>
-                        <span className="font-semibold block text-slate-200">{task.name}</span>
-                        <span className="text-[9px] text-slate-400 font-sans block leading-none">
+                        <span className="font-bold block text-slate-200 text-xs mb-0.5">{task.name}</span>
+                        <span className="text-[10px] text-slate-500 font-sans block leading-snug line-clamp-2">
                           {task.description}
                         </span>
                       </div>
                     </div>
-                    <span className="font-mono font-bold text-[9px] bg-[#0d1117] border border-[#30363D] px-1.5 py-0.5 rounded">
-                      +{task.vitalityPoints} VP
+                    <span className="shrink-0 font-mono font-bold text-[10px] text-slate-300 bg-[#161B22] border border-[#30363D] px-2 py-1 rounded-md group-hover:border-indigo-500/50 group-hover:text-indigo-300 transition-colors">
+                      +{task.vitalityPoints}
                     </span>
                   </button>
                 ))
@@ -165,9 +230,9 @@ export const EcosystemMap: React.FC<EcosystemMapProps> = ({
           </div>
         </div>
 
-        <div className="mt-3 text-[9px] text-slate-500 font-mono flex items-center gap-1 justify-center bg-[#0d1117] py-1.5 px-2 rounded border border-[#30363D]">
-          <AlertCircle className="w-3.5 h-3.5 text-slate-400" />
-          <span>Tap coordinates or logs above to simulate physical checks.</span>
+        <div className="mt-4 text-[10px] text-slate-500 font-mono flex items-center gap-1.5 justify-center bg-[#0d1117] py-2 px-3 rounded-lg border border-[#30363D] shadow-inner">
+          <AlertCircle className="w-3.5 h-3.5 text-indigo-500/70" />
+          <span>Tap logs to execute physical simulation.</span>
         </div>
       </div>
     </div>
