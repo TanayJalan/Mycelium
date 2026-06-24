@@ -196,6 +196,15 @@ export const MycelialCanvas: React.FC<MycelialCanvasProps> = ({
     setLocalDragPos(null);
   };
 
+  const handlePointerCancel = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+    setDragState(null);
+    e.currentTarget.releasePointerCapture(e.pointerId);
+  };
+
   const getNodeColor = (task: MycelialTask) => {
     if (task.completed) return "text-emerald-400 border-emerald-500/50 bg-emerald-950/25";
     if (task.riskScore >= 75) return "text-rose-400 border-rose-500/50 bg-rose-950/25 animate-pulse";
@@ -289,7 +298,9 @@ export const MycelialCanvas: React.FC<MycelialCanvasProps> = ({
               onPointerDown={(e) => handlePointerDown(e, task)}
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
-              style={{ left: `${task.gridX}%`, top: `${task.gridY}%` }}
+              onPointerCancel={handlePointerCancel}
+              onContextMenu={(e) => { e.preventDefault(); e.stopPropagation(); }}
+              style={{ left: `${task.gridX}%`, top: `${task.gridY}%`, WebkitTouchCallout: 'none', userSelect: 'none' }}
               className={`absolute -translate-x-1/2 -translate-y-1/2 p-2.5 rounded-full border-2 transition-all duration-300 backdrop-blur-sm z-10 flex items-center justify-center group touch-none ${colorClasses} ${
                 isSelected ? "scale-125 ring-2 ring-indigo-400 border-white z-20" : "hover:scale-110"
               } ${isCurrentlyDragging ? "cursor-grabbing" : "cursor-grab"}`}
@@ -310,7 +321,7 @@ export const MycelialCanvas: React.FC<MycelialCanvasProps> = ({
               {/* Delete Cross Overlay */}
               {nodeToDelete === task.id && (
                 <div
-                  className="absolute -top-3 -right-3 bg-rose-600 rounded-full p-1 border border-rose-900 cursor-pointer z-50 hover:bg-rose-500 hover:scale-110 transition-transform shadow-lg animate-in zoom-in"
+                  className="absolute -top-4 -right-4 bg-rose-600 rounded-full p-1.5 border border-rose-900 cursor-pointer z-50 hover:bg-rose-500 hover:scale-110 transition-transform shadow-lg animate-in zoom-in flex items-center justify-center"
                   onPointerDown={(e) => {
                     e.stopPropagation();
                     if (longPressTimer.current) clearTimeout(longPressTimer.current);
@@ -318,7 +329,7 @@ export const MycelialCanvas: React.FC<MycelialCanvasProps> = ({
                     setNodeToDelete(null);
                   }}
                 >
-                  <X className="w-4 h-4 text-white" />
+                  <X className="w-5 h-5 text-white" />
                 </div>
               )}
 
