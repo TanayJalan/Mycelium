@@ -15,7 +15,8 @@ import {
   Send,
   Zap,
   CheckCircle2,
-  Cpu
+  Cpu,
+  Edit2
 } from "lucide-react";
 
 interface ChiefOfStaffHUDProps {
@@ -36,6 +37,15 @@ export const ChiefOfStaffHUD: React.FC<ChiefOfStaffHUDProps> = ({
   onSelectTask,
 }) => {
   const [activeTab, setActiveTab] = useState<"twin" | "calendar" | "guardian" | "failure" | "execution">("twin");
+
+  // State for Life Digital Twin Profile
+  const [isEditingTwin, setIsEditingTwin] = useState(false);
+  const [twinProfile, setTwinProfile] = useState({
+    peakWindow: "2:00 PM - 5:30 PM",
+    avoidanceTime: "After 9:00 PM",
+    averageDelay: "1.4 Hours slippage",
+    diurnalScore: "82% (Sleep: 7.5 hr)"
+  });
 
   // State for AI Meeting Guardian
   const [meetingText, setMeetingText] = useState("");
@@ -146,14 +156,14 @@ export const ChiefOfStaffHUD: React.FC<ChiefOfStaffHUDProps> = ({
           const optimalY = task.category === "academic" ? 30 : task.category === "professional" ? 50 : 70;
           onUpdateTask(task.id, {
             gridY: optimalY,
-            deadline: task.deadline === "In 24 hours" || task.deadline === "Tomorrow" ? "Tomorrow at 2:00 PM (Peak focus window)" : task.deadline,
+            deadline: task.deadline === "In 24 hours" || task.deadline === "Tomorrow" ? `Tomorrow (${twinProfile.peakWindow})` : task.deadline,
             riskScore: Math.max(10, task.riskScore - 15) // Reduce risk because of perfect scheduling alignment
           });
         }
       });
       setIsTwinOptimizing(false);
       onAddMessage(
-        "[Life Digital Twin] Cognitive alignment complete! 🚀 Shifted your task node grid to match peak diurnal efficiency windows (2:00 PM - 5:30 PM). Reduced general grid decay coefficient by 15%.",
+        `[Life Digital Twin] Cognitive alignment complete! 🚀 Shifted your task node grid to match your personal peak diurnal efficiency window (${twinProfile.peakWindow}). Avoidance patterns (${twinProfile.avoidanceTime}) successfully bypassed. Reduced general grid decay coefficient by 15%.`,
         "assistant"
       );
     }, 1200);
@@ -196,13 +206,13 @@ export const ChiefOfStaffHUD: React.FC<ChiefOfStaffHUDProps> = ({
     // Prevent duplicate calendar tag in description
     if (!selectedTask.description.includes("[Google Calendar Sync]")) {
       onUpdateTask(selectedTask.id, {
-        description: `${selectedTask.description}\n\n📅 [Google Calendar Sync]: Synced 60-minute Focus Block for tomorrow at 2:00 PM (Peak focus window).`
+        description: `${selectedTask.description}\n\n📅 [Google Calendar Sync]: Synced 60-minute Focus Block for tomorrow (${twinProfile.peakWindow}).`
       });
     }
 
     setTimeout(() => {
       onAddMessage(
-        `[Autonomous Agent] Successfully reserved 60-minute Focus Block in Google Calendar for "${selectedTask.title}" tomorrow at 2:00 PM (Peak focus window). Google Sync Active.`,
+        `[Autonomous Agent] Successfully reserved 60-minute Focus Block in Google Calendar for "${selectedTask.title}" tomorrow during your peak window (${twinProfile.peakWindow}). Google Sync Active.`,
         "assistant"
       );
       setIsSyncingCal(false);
@@ -300,47 +310,103 @@ export const ChiefOfStaffHUD: React.FC<ChiefOfStaffHUDProps> = ({
         {/* TAB 1: LIFE DIGITAL TWIN */}
         {activeTab === "twin" && (
           <div className="space-y-4">
-            <div className="space-y-1.5">
-              <h4 className="text-xs font-sans font-semibold text-slate-300 uppercase flex items-center gap-1.5">
-                <User className="w-4 h-4 text-indigo-400" />
-                <span>Life Digital Twin Profile</span>
-              </h4>
-              <p className="text-[11px] text-slate-400 leading-relaxed">
-                The AI maps and simulates your biological behaviors over a rolling 14-day cycle. It models tasks against actual energy levels instead of ideal schedules.
-              </p>
+            <div className="flex justify-between items-start">
+              <div className="space-y-1.5">
+                <h4 className="text-xs font-sans font-semibold text-slate-300 uppercase flex items-center gap-1.5">
+                  <User className="w-4 h-4 text-indigo-400" />
+                  <span>Life Digital Twin Profile</span>
+                </h4>
+                <p className="text-[11px] text-slate-400 leading-relaxed pr-4">
+                  The AI maps and simulates your biological behaviors over a rolling 14-day cycle. It models tasks against actual energy levels instead of ideal schedules.
+                </p>
+              </div>
+              <button
+                onClick={() => setIsEditingTwin(!isEditingTwin)}
+                className={`text-[9px] font-mono shrink-0 px-2.5 py-1.5 border rounded flex items-center gap-1 transition-colors cursor-pointer ${
+                  isEditingTwin 
+                    ? "bg-emerald-950/40 border-emerald-900/60 text-emerald-400 hover:bg-emerald-900/60" 
+                    : "bg-[#0d1117] border-[#30363D] text-slate-400 hover:text-white"
+                }`}
+              >
+                {isEditingTwin ? (
+                  <>
+                    <CheckCircle2 className="w-3 h-3" /> SAVE PROFILE
+                  </>
+                ) : (
+                  <>
+                    <Edit2 className="w-3 h-3" /> EDIT PROFILE
+                  </>
+                )}
+              </button>
             </div>
 
             {/* Dials / Parameters Grid */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="bg-[#0d1117] border border-[#30363D] rounded-lg p-2.5 space-y-1">
-                <span className="text-[9px] font-mono text-slate-500 uppercase">Study peak window</span>
-                <p className="text-xs font-semibold text-emerald-400 font-sans">2:00 PM - 5:30 PM</p>
+              <div className="bg-[#0d1117] border border-[#30363D] rounded-lg p-2.5 space-y-1 relative group">
+                <span className="text-[9px] font-mono text-slate-500 uppercase block mb-1">Study peak window</span>
+                {isEditingTwin ? (
+                  <input 
+                    type="text" 
+                    value={twinProfile.peakWindow} 
+                    onChange={e => setTwinProfile({...twinProfile, peakWindow: e.target.value})} 
+                    className="w-full bg-[#161B22] border border-emerald-900/50 text-emerald-400 font-sans text-[11px] font-semibold px-2 py-1 rounded outline-none focus:border-emerald-500" 
+                  />
+                ) : (
+                  <p className="text-xs font-semibold text-emerald-400 font-sans group-hover:text-emerald-300 transition-colors">{twinProfile.peakWindow}</p>
+                )}
                 <div className="w-full bg-[#161B22] h-1.5 rounded overflow-hidden mt-1">
-                  <div className="bg-emerald-500 h-full w-[85%]"></div>
+                  <div className="bg-emerald-500 h-full w-[85%] group-hover:bg-emerald-400 transition-colors"></div>
                 </div>
               </div>
               
-              <div className="bg-[#0d1117] border border-[#30363D] rounded-lg p-2.5 space-y-1">
-                <span className="text-[9px] font-mono text-slate-500 uppercase">Ignoring / Avoidance Time</span>
-                <p className="text-xs font-semibold text-rose-400 font-sans">After 9:00 PM</p>
+              <div className="bg-[#0d1117] border border-[#30363D] rounded-lg p-2.5 space-y-1 relative group">
+                <span className="text-[9px] font-mono text-slate-500 uppercase block mb-1">Ignoring / Avoidance Time</span>
+                {isEditingTwin ? (
+                  <input 
+                    type="text" 
+                    value={twinProfile.avoidanceTime} 
+                    onChange={e => setTwinProfile({...twinProfile, avoidanceTime: e.target.value})} 
+                    className="w-full bg-[#161B22] border border-rose-900/50 text-rose-400 font-sans text-[11px] font-semibold px-2 py-1 rounded outline-none focus:border-rose-500" 
+                  />
+                ) : (
+                  <p className="text-xs font-semibold text-rose-400 font-sans group-hover:text-rose-300 transition-colors">{twinProfile.avoidanceTime}</p>
+                )}
                 <div className="w-full bg-[#161B22] h-1.5 rounded overflow-hidden mt-1">
-                  <div className="bg-rose-500 h-full w-[95%]"></div>
+                  <div className="bg-rose-500 h-full w-[95%] group-hover:bg-rose-400 transition-colors"></div>
                 </div>
               </div>
 
-              <div className="bg-[#0d1117] border border-[#30363D] rounded-lg p-2.5 space-y-1">
-                <span className="text-[9px] font-mono text-slate-500 uppercase">Average task delay</span>
-                <p className="text-xs font-semibold text-indigo-400 font-sans">1.4 Hours slippage</p>
+              <div className="bg-[#0d1117] border border-[#30363D] rounded-lg p-2.5 space-y-1 relative group">
+                <span className="text-[9px] font-mono text-slate-500 uppercase block mb-1">Average task delay</span>
+                {isEditingTwin ? (
+                  <input 
+                    type="text" 
+                    value={twinProfile.averageDelay} 
+                    onChange={e => setTwinProfile({...twinProfile, averageDelay: e.target.value})} 
+                    className="w-full bg-[#161B22] border border-indigo-900/50 text-indigo-400 font-sans text-[11px] font-semibold px-2 py-1 rounded outline-none focus:border-indigo-500" 
+                  />
+                ) : (
+                  <p className="text-xs font-semibold text-indigo-400 font-sans group-hover:text-indigo-300 transition-colors">{twinProfile.averageDelay}</p>
+                )}
                 <div className="w-full bg-[#161B22] h-1.5 rounded overflow-hidden mt-1">
-                  <div className="bg-indigo-500 h-full w-[45%]"></div>
+                  <div className="bg-indigo-500 h-full w-[45%] group-hover:bg-indigo-400 transition-colors"></div>
                 </div>
               </div>
 
-              <div className="bg-[#0d1117] border border-[#30363D] rounded-lg p-2.5 space-y-1">
-                <span className="text-[9px] font-mono text-slate-500 uppercase">Diurnal Energy Score</span>
-                <p className="text-xs font-semibold text-cyan-400 font-sans">82% (Sleep: 7.5 hr)</p>
+              <div className="bg-[#0d1117] border border-[#30363D] rounded-lg p-2.5 space-y-1 relative group">
+                <span className="text-[9px] font-mono text-slate-500 uppercase block mb-1">Diurnal Energy Score</span>
+                {isEditingTwin ? (
+                  <input 
+                    type="text" 
+                    value={twinProfile.diurnalScore} 
+                    onChange={e => setTwinProfile({...twinProfile, diurnalScore: e.target.value})} 
+                    className="w-full bg-[#161B22] border border-cyan-900/50 text-cyan-400 font-sans text-[11px] font-semibold px-2 py-1 rounded outline-none focus:border-cyan-500" 
+                  />
+                ) : (
+                  <p className="text-xs font-semibold text-cyan-400 font-sans group-hover:text-cyan-300 transition-colors">{twinProfile.diurnalScore}</p>
+                )}
                 <div className="w-full bg-[#161B22] h-1.5 rounded overflow-hidden mt-1">
-                  <div className="bg-cyan-500 h-full w-[82%]"></div>
+                  <div className="bg-cyan-500 h-full w-[82%] group-hover:bg-cyan-400 transition-colors"></div>
                 </div>
               </div>
             </div>
@@ -348,18 +414,18 @@ export const ChiefOfStaffHUD: React.FC<ChiefOfStaffHUDProps> = ({
             {/* Action optimization button */}
             <button
               onClick={handleTwinGridAlign}
-              disabled={isTwinOptimizing}
-              className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white disabled:bg-[#30363D] font-sans font-bold text-xs rounded-lg flex items-center justify-center gap-2 transition-all cursor-pointer shadow"
+              disabled={isTwinOptimizing || isEditingTwin}
+              className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white disabled:bg-[#30363D] disabled:text-slate-500 font-sans font-bold text-xs rounded-lg flex items-center justify-center gap-2 transition-all cursor-pointer shadow"
             >
               {isTwinOptimizing ? (
                 <Clock className="w-4 h-4 animate-spin" />
               ) : (
-                <Sparkles className="w-4 h-4 text-indigo-200" />
+                <Sparkles className="w-4 h-4" />
               )}
               <span>{isTwinOptimizing ? "Calibrating grid alignment..." : "Energy-Aware Grid Align"}</span>
             </button>
             <span className="text-[9px] text-slate-500 block text-center italic">
-              *Reschedules task nodes to active focus slots and reduces cognitive grid decay rates.
+              *Reschedules task nodes to active focus slots based on your personal Peak Window.
             </span>
           </div>
         )}
@@ -393,7 +459,7 @@ export const ChiefOfStaffHUD: React.FC<ChiefOfStaffHUDProps> = ({
             {/* Daily schedule visualization */}
             <div className="bg-[#0d1117] border border-[#30363D] rounded-xl p-3.5 space-y-3.5 max-h-[260px] overflow-y-auto">
               <div className="flex justify-between items-center pb-2 border-b border-[#30363D]">
-                <span className="text-[9px] font-mono text-slate-400 uppercase tracking-wider block font-bold">Today's Focus Timeline (2:00 PM - 5:30 PM Peak)</span>
+                <span className="text-[9px] font-mono text-slate-400 uppercase tracking-wider block font-bold">Today's Focus Timeline ({twinProfile.peakWindow} Peak)</span>
                 <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded border font-semibold ${
                   calBlocked ? "bg-emerald-950/50 text-emerald-400 border-emerald-800" : "bg-indigo-950/50 text-indigo-400 border-indigo-800"
                 }`}>
@@ -448,7 +514,7 @@ export const ChiefOfStaffHUD: React.FC<ChiefOfStaffHUDProps> = ({
                       <div className="absolute -left-[17px] top-1.5 w-2 h-2 rounded-full bg-indigo-400 border border-[#0d1117] animate-ping" />
                       <div className="absolute -left-[17px] top-1.5 w-2 h-2 rounded-full bg-indigo-500 border border-[#0d1117]" />
                       <div className="flex gap-2.5 p-2 rounded bg-indigo-950/40 border-2 border-indigo-500/80 shadow-[0_0_12px_rgba(99,102,241,0.25)]">
-                        <span className="font-mono text-indigo-400 w-12 text-right font-bold shrink-0">2:00 PM</span>
+                        <span className="font-mono text-indigo-400 w-12 text-right font-bold shrink-0">Peak</span>
                         <div className="pl-1 flex-1 flex justify-between items-start">
                           <div>
                             <p className="font-bold text-white flex items-center gap-1.5">
@@ -467,7 +533,7 @@ export const ChiefOfStaffHUD: React.FC<ChiefOfStaffHUDProps> = ({
                     <>
                       <div className="absolute -left-[17px] top-1.5 w-2 h-2 rounded-full bg-slate-500 border border-[#0d1117]" />
                       <div className="flex gap-2.5 p-2 rounded bg-slate-900/20 border border-dashed border-[#30363D]">
-                        <span className="font-mono text-slate-500 w-12 text-right font-medium shrink-0">2:00 PM</span>
+                        <span className="font-mono text-slate-500 w-12 text-right font-medium shrink-0">Peak</span>
                         <div className="pl-1 flex-1 flex justify-between items-center">
                           <div>
                             <p className="font-semibold text-slate-400 italic">🧬 Synced Mycelial Focus Block (Unscheduled)</p>
