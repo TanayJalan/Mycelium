@@ -33,37 +33,37 @@
 
 ### 1. Problem Solving & Impact (20%)
 **Showcasing:** `EMERGENCY DECAY PROTOCOL`. When a user procrastinates, Mycelium locks the screen and uses Web Audio binaural beats to force focus and cure task paralysis.
-> 📸 **[PLACEHOLDER: Insert screenshot of the red/high-contrast Emergency Console]**
+> <img width="997" height="810" alt="Screenshot 2026-06-24 at 5 16 08 PM" src="https://github.com/user-attachments/assets/d15d9c3b-adcf-4fdd-a99b-829b1d1bfee8" />
 > `![Problem Solving - Emergency Mode](link-to-image)`
 
 ### 2. Agentic Depth (20%)
 **Showcasing:** `4. ACTIVE SYMBIOTE AI INTERCOM`. The multi-agent ecosystem features four distinct personas (The Spore, The Shroom, Myco-Field, Bio-Bridge) that provide dynamic, autonomous accountability.
-> 📸 **[PLACEHOLDER: Insert screenshot of the 4. ACTIVE SYMBIOTE AI INTERCOM interface]**
+> <img width="489" height="565" alt="Screenshot 2026-06-24 at 5 08 52 PM" src="https://github.com/user-attachments/assets/912b1dca-dea2-4975-aa89-b61f1c926318" />
 > `![Agentic Depth - Chat](link-to-image)`
 
 ### 3. Innovation & Creativity (20%)
 **Showcasing:** `1. BIOLOGICAL NEURAL GRID`. Instead of a flat list, tasks are living spores connected by glowing hyphae that pulse based on deadline risk (Decaying, Unstable, Nutritional).
-> 📸 **[PLACEHOLDER: Insert screenshot of the 1. BIOLOGICAL NEURAL GRID with glowing nodes]**
+> <img width="700" height="435" alt="Screenshot 2026-06-24 at 5 08 26 PM" src="https://github.com/user-attachments/assets/7b0ad0f4-1baa-4879-86cb-ae217244b80c" />
 > `![Innovation - Neural Grid](link-to-image)`
 
 ### 4. Usage of Google Technologies (15%)
 **Showcasing:** `2. INGEST CHAOTIC SYLLABUS OR MESSY EMAILS`. Uses Google Gemini 3.5 Flash structured JSON outputs to autonomously parse messy text blocks directly into grid coordinates.
-> 📸 **[PLACEHOLDER: Insert screenshot of the 2. INGEST CHAOTIC SYLLABUS OR MESSY EMAILS panel]**
+> <img width="708" height="199" alt="Screenshot 2026-06-24 at 5 08 35 PM" src="https://github.com/user-attachments/assets/7c984052-c5f8-4912-86af-77522c49a85c" />
 > `![Google Tech - AI Extraction](link-to-image)`
 
 ### 5. Product Experience & Design (10%)
 **Showcasing:** `5. ACTIVE TASK HUD CONTROLLER`. A seamless, dark-mode, biological-terminal aesthetic built with Tailwind v4 that tracks "Accumulated Assimilation" and "Vitality Points".
-> 📸 **[PLACEHOLDER: Insert screenshot of the 5. ACTIVE TASK HUD CONTROLLER]**
+> <img width="492" height="326" alt="Screenshot 2026-06-24 at 5 09 06 PM" src="https://github.com/user-attachments/assets/34c9f28f-20fd-4c5a-8271-af917a3ee3b4" />
 > `![Product Design - HUD Controller](link-to-image)`
 
 ### 6. Technical Implementation (10%)
 **Showcasing:** `3. COMMUTE NAVIGATION & CROWDSOURCED ECOSYSTEM LOGGING`. Demonstrates complex state management linking physical/ecological actions to digital vitality scores, securely backed by Firestore.
-> 📸 **[PLACEHOLDER: Insert screenshot of the 3. COMMUTE NAVIGATION & CROWDSOURCED ECOSYSTEM LOGGING panel]**
+> <img width="694" height="440" alt="Screenshot 2026-06-24 at 5 08 44 PM" src="https://github.com/user-attachments/assets/4b477ade-88e7-4ed0-a2fa-f47f4e5fabc3" />
 > `![Technical Implementation - Ecosystem](link-to-image)`
 
 ### 7. Completeness & Usability (5%)
 **Showcasing:** The overarching `MYCELIUM CHIEF OF STAFF HUD`. The app is a fully functional Progressive Web App (PWA) that syncs instantly across mobile and desktop environments.
-> 📸 **[PLACEHOLDER: Insert screenshot of the full Chief of Staff HUD running cleanly on a device]**
+> <img width="496" height="545" alt="Screenshot 2026-06-24 at 5 09 14 PM" src="https://github.com/user-attachments/assets/6e5dce39-aa50-48e5-bf86-bd685a4e7180" />
 > `![Completeness - Full HUD/PWA](link-to-image)`
 
 ---
