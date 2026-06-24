@@ -25,44 +25,46 @@
 
 ---
 
+---
+
 ## 📸 Evaluation Matrix Showcase
 
 *Please review the following screenshots which demonstrate how Mycelium satisfies each of the 7 Hackathon judging criteria:*
 
 ### 1. Problem Solving & Impact (20%)
-**Showcasing:** The Emergency Lockdown Protocol. When a user procrastinates, Mycelium locks the screen and uses Web Audio binaural beats to force focus.
+**Showcasing:** `EMERGENCY DECAY PROTOCOL`. When a user procrastinates, Mycelium locks the screen and uses Web Audio binaural beats to force focus and cure task paralysis.
 > 📸 **[PLACEHOLDER: Insert screenshot of the red/high-contrast Emergency Console]**
 > `![Problem Solving - Emergency Mode](link-to-image)`
 
 ### 2. Agentic Depth (20%)
-**Showcasing:** The multi-agent ecosystem. Here, "The Spore" parses unstructured text into tasks, while "The Shroom" provides aggressive accountability.
-> 📸 **[PLACEHOLDER: Insert screenshot of the Agent Chat interface showing the AI personas]**
+**Showcasing:** `4. ACTIVE SYMBIOTE AI INTERCOM`. The multi-agent ecosystem features four distinct personas (The Spore, The Shroom, Myco-Field, Bio-Bridge) that provide dynamic, autonomous accountability.
+> 📸 **[PLACEHOLDER: Insert screenshot of the 4. ACTIVE SYMBIOTE AI INTERCOM interface]**
 > `![Agentic Depth - Chat](link-to-image)`
 
 ### 3. Innovation & Creativity (20%)
-**Showcasing:** The Biological Neural Grid. Instead of a flat list, tasks are living spores connected by glowing hyphae that pulse based on deadline risk.
-> 📸 **[PLACEHOLDER: Insert screenshot of the 2D Mycelial Canvas with connected glowing nodes]**
+**Showcasing:** `1. BIOLOGICAL NEURAL GRID`. Instead of a flat list, tasks are living spores connected by glowing hyphae that pulse based on deadline risk (Decaying, Unstable, Nutritional).
+> 📸 **[PLACEHOLDER: Insert screenshot of the 1. BIOLOGICAL NEURAL GRID with glowing nodes]**
 > `![Innovation - Neural Grid](link-to-image)`
 
 ### 4. Usage of Google Technologies (15%)
-**Showcasing:** Gemini 3.5 Flash Integration. The AI diagnostic panel uses structured JSON outputs from Gemini to predict deadline failure rates.
-> 📸 **[PLACEHOLDER: Insert screenshot of the Risk Diagnostic panel or Zero-to-One Quickstart]**
-> `![Google Tech - Gemini Diagnostics](link-to-image)`
+**Showcasing:** `2. INGEST CHAOTIC SYLLABUS OR MESSY EMAILS`. Uses Google Gemini 3.5 Flash structured JSON outputs to autonomously parse messy text blocks directly into grid coordinates.
+> 📸 **[PLACEHOLDER: Insert screenshot of the 2. INGEST CHAOTIC SYLLABUS OR MESSY EMAILS panel]**
+> `![Google Tech - AI Extraction](link-to-image)`
 
 ### 5. Product Experience & Design (10%)
-**Showcasing:** The Chief of Staff HUD. A seamless, dark-mode, biological-terminal aesthetic built with Tailwind v4 and Framer Motion.
-> 📸 **[PLACEHOLDER: Insert screenshot of the main HUD dashboard and top navigation]**
-> `![Product Design - HUD](link-to-image)`
+**Showcasing:** `5. ACTIVE TASK HUD CONTROLLER`. A seamless, dark-mode, biological-terminal aesthetic built with Tailwind v4 that tracks "Accumulated Assimilation" and "Vitality Points".
+> 📸 **[PLACEHOLDER: Insert screenshot of the 5. ACTIVE TASK HUD CONTROLLER]**
+> `![Product Design - HUD Controller](link-to-image)`
 
 ### 6. Technical Implementation (10%)
-**Showcasing:** Real-time synchronization. The Firestore NoSQL database powers the backend, syncing node coordinates instantly across devices.
-> 📸 **[PLACEHOLDER: Insert screenshot of the Firebase/Firestore database console showing the tasks, or the app running on two screens]**
-> `![Technical Implementation - Sync](link-to-image)`
+**Showcasing:** `3. COMMUTE NAVIGATION & CROWDSOURCED ECOSYSTEM LOGGING`. Demonstrates complex state management linking physical/ecological actions to digital vitality scores, securely backed by Firestore.
+> 📸 **[PLACEHOLDER: Insert screenshot of the 3. COMMUTE NAVIGATION & CROWDSOURCED ECOSYSTEM LOGGING panel]**
+> `![Technical Implementation - Ecosystem](link-to-image)`
 
 ### 7. Completeness & Usability (5%)
-**Showcasing:** The Progressive Web App (PWA) and Mobile Responsiveness. The app is fully deployable and usable on any device.
-> 📸 **[PLACEHOLDER: Insert screenshot of the app running cleanly on a mobile device or as an installed desktop PWA]**
-> `![Completeness - Mobile/PWA](link-to-image)`
+**Showcasing:** The overarching `MYCELIUM CHIEF OF STAFF HUD`. The app is a fully functional Progressive Web App (PWA) that syncs instantly across mobile and desktop environments.
+> 📸 **[PLACEHOLDER: Insert screenshot of the full Chief of Staff HUD running cleanly on a device]**
+> `![Completeness - Full HUD/PWA](link-to-image)`
 
 ---
 
