@@ -319,8 +319,9 @@ app.post("/api/gemini/chat", async (req, res) => {
       focus: "Myco-Field (Focus Agent)",
       ecosystem: "Bio-Bridge (Ecosystem Agent)",
     };
-    const responseText = `[Simulation Mode - Gemini Key Missing] Hello from ${agentNames[targetAgent]}! I am fully designed to help you organize your tasks in this mycelial network. Let's finish that outstanding deadline!`;
-    return res.json({ response: responseText });
+    const reason = !ai ? "Gemini Key Missing" : "API Quota Exhausted/Cooldown";
+    const responseText = `[Simulation Mode - ${reason}] Hello from ${agentNames[targetAgent]}! I am fully designed to help you organize your tasks in this mycelial network. Let's finish that outstanding deadline!`;
+    return res.json({ response: responseText, simulated: true });
   }
 
   // Set agent-specific behaviors and tone
