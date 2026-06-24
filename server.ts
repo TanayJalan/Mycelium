@@ -9,7 +9,7 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 // Enable trust proxy for express-rate-limit to correctly identify user IPs behind reverse proxies
 app.set("trust proxy", 1);
