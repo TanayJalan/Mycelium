@@ -5,9 +5,18 @@ import {
   persistentMultipleTabManager 
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import firebaseConfig from "../../firebase-applet-config.json";
-
 // Initialize Firebase App
+const firebaseConfig = {
+  projectId: "mesmerizing-park-s224x",
+  appId: "1:236120592145:web:62c533806c409901b1c6b0",
+  apiKey: "AIzaSyCvZEYBFlncRpqx-u5mvD4Pwqq67dzDggM",
+  authDomain: "mesmerizing-park-s224x.firebaseapp.com",
+  firestoreDatabaseId: "ai-studio-759ef204-016a-437a-bc75-6eaee62bc1e7",
+  storageBucket: "mesmerizing-park-s224x.firebasestorage.app",
+  messagingSenderId: "236120592145",
+  measurementId: ""
+};
+
 const app = initializeApp({
   apiKey: firebaseConfig.apiKey,
   authDomain: firebaseConfig.authDomain,
