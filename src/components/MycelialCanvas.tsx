@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useRef } from "react";
 import { MycelialTask } from "../types";
-import { Zap, AlertTriangle, CheckCircle2, ShieldAlert } from "lucide-react";
+import { Zap, AlertTriangle, CheckCircle2, ShieldAlert, X } from "lucide-react";
 
 interface MycelialCanvasProps {
   tasks: MycelialTask[];
@@ -9,6 +9,7 @@ interface MycelialCanvasProps {
   onToggleComplete: (id: string) => void;
   onUpdateProgress: (id: string, progress: number) => void;
   onNodeMove?: (id: string, gridX: number, gridY: number) => void;
+  onDeleteTask?: (id: string) => void;
 }
 
 export const MycelialCanvas: React.FC<MycelialCanvasProps> = ({
@@ -18,6 +19,7 @@ export const MycelialCanvas: React.FC<MycelialCanvasProps> = ({
   onToggleComplete,
   onUpdateProgress,
   onNodeMove,
+  onDeleteTask,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -33,6 +35,10 @@ export const MycelialCanvas: React.FC<MycelialCanvasProps> = ({
     initialGridY: number;
     hasMoved: boolean;
   } | null>(null);
+
+  // State for long-press deletion
+  const [nodeToDelete, setNodeToDelete] = useState<string | null>(null);
+  const longPressTimer = useRef<NodeJS.Timeout | null>(null);
 
   // Compute tasks to display, projecting currently dragged task position optimistically
   const displayTasks = useMemo(() => {
@@ -110,7 +116,13 @@ export const MycelialCanvas: React.FC<MycelialCanvasProps> = ({
 
   // Drag handlers using Pointer Events for unified touch and mouse support
   const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>, task: MycelialTask) => {
+    e.stopPropagation();
     if (e.button !== 0) return; // only left click
+    
+    // Hide delete option if we click elsewhere
+    if (nodeToDelete !== task.id) {
+      setNodeToDelete(null);
+    }
     
     e.currentTarget.setPointerCapture(e.pointerId);
     
@@ -122,6 +134,11 @@ export const MycelialCanvas: React.FC<MycelialCanvasProps> = ({
       initialGridY: task.gridY,
       hasMoved: false,
     });
+
+    if (longPressTimer.current) clearTimeout(longPressTimer.current);
+    longPressTimer.current = setTimeout(() => {
+      setNodeToDelete(task.id);
+    }, 3000);
   };
 
   const handlePointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
@@ -137,6 +154,10 @@ export const MycelialCanvas: React.FC<MycelialCanvasProps> = ({
 
     if (!dragState.hasMoved) {
       setDragState((prev) => (prev ? { ...prev, hasMoved: true } : null));
+      if (longPressTimer.current) {
+        clearTimeout(longPressTimer.current);
+        longPressTimer.current = null;
+      }
     }
 
     if (containerRef.current) {
@@ -157,6 +178,11 @@ export const MycelialCanvas: React.FC<MycelialCanvasProps> = ({
   };
 
   const handlePointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+
     if (!dragState) return;
     e.currentTarget.releasePointerCapture(e.pointerId);
 
@@ -179,7 +205,10 @@ export const MycelialCanvas: React.FC<MycelialCanvasProps> = ({
   };
 
   return (
-    <div className="relative w-full h-[380px] bg-[#161B22] border border-[#30363D] rounded-xl overflow-hidden shadow-2xl flex flex-col justify-between">
+    <div 
+      className="relative w-full h-[380px] bg-[#161B22] border border-[#30363D] rounded-xl overflow-hidden shadow-2xl flex flex-col justify-between"
+      onPointerDown={() => setNodeToDelete(null)}
+    >
       {/* HUD Header */}
       <div className="absolute top-3 left-4 right-4 z-10 flex justify-between items-center pointer-events-none">
         <div className="flex items-center gap-2 bg-[#0d1117]/90 border border-[#30363D] px-3 py-1.5 rounded-md backdrop-blur-md">
@@ -276,6 +305,21 @@ export const MycelialCanvas: React.FC<MycelialCanvasProps> = ({
                 <AlertTriangle className="w-5 h-5 text-amber-400" />
               ) : (
                 <Zap className="w-5 h-5 text-indigo-400" />
+              )}
+
+              {/* Delete Cross Overlay */}
+              {nodeToDelete === task.id && (
+                <div
+                  className="absolute -top-3 -right-3 bg-rose-600 rounded-full p-1 border border-rose-900 cursor-pointer z-50 hover:bg-rose-500 hover:scale-110 transition-transform shadow-lg animate-in zoom-in"
+                  onPointerDown={(e) => {
+                    e.stopPropagation();
+                    if (longPressTimer.current) clearTimeout(longPressTimer.current);
+                    onDeleteTask?.(task.id);
+                    setNodeToDelete(null);
+                  }}
+                >
+                  <X className="w-4 h-4 text-white" />
+                </div>
               )}
 
               {/* Hover Tooltip / HUD label - Hidden during active dragging for visibility */}

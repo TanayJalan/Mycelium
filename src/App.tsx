@@ -1113,6 +1113,7 @@ export default function App() {
                   onToggleComplete={handleToggleComplete}
                   onUpdateProgress={handleUpdateProgress}
                   onNodeMove={handleNodeMove}
+                  onDeleteTask={handleDeleteTask}
                 />
               </div>
 
