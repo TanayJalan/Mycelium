@@ -7,12 +7,12 @@ import {
 import { getAuth } from "firebase/auth";
 // Initialize Firebase App
 const firebaseConfig = {
-  apiKey: "AIzaSyAzbr7IVLlFMVHTjT61MyHe4N7YjOMVGXQ",
-  authDomain: "mycelium-565cd.firebaseapp.com",
-  projectId: "mycelium-565cd",
-  storageBucket: "mycelium-565cd.firebasestorage.app",
-  messagingSenderId: "781204970188",
-  appId: "1:781204970188:web:ef7d1ab361c95a4ab08069"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 const app = initializeApp(firebaseConfig);
